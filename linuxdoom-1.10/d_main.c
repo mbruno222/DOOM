@@ -622,7 +622,7 @@ void IdentifyVersion (void)
 	D_AddFile (DEVMAPS"data_se/texture1.lmp");
 	D_AddFile (DEVMAPS"data_se/pnames.lmp");
 	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
+	goto done;
     }
 
     if (M_CheckParm ("-regdev"))
@@ -634,7 +634,7 @@ void IdentifyVersion (void)
 	D_AddFile (DEVMAPS"data_se/texture2.lmp");
 	D_AddFile (DEVMAPS"data_se/pnames.lmp");
 	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
+	goto done;
     }
 
     if (M_CheckParm ("-comdev"))
@@ -652,7 +652,7 @@ void IdentifyVersion (void)
 	D_AddFile (DEVMAPS"cdata/texture1.lmp");
 	D_AddFile (DEVMAPS"cdata/pnames.lmp");
 	strcpy (basedefault,DEVDATA"default.cfg");
-	return;
+	goto done;
     }
 
     if ( !access (doom2fwad,R_OK) )
@@ -663,53 +663,63 @@ void IdentifyVersion (void)
 	language = french;
 	printf("French version\n");
 	D_AddFile (doom2fwad);
-	return;
+	goto done;
     }
 
     if ( !access (doom2wad,R_OK) )
     {
 	gamemode = commercial;
 	D_AddFile (doom2wad);
-	return;
+	goto done;
     }
 
     if ( !access (plutoniawad, R_OK ) )
     {
       gamemode = commercial;
       D_AddFile (plutoniawad);
-      return;
+      goto done;
     }
 
     if ( !access ( tntwad, R_OK ) )
     {
       gamemode = commercial;
       D_AddFile (tntwad);
-      return;
+      goto done;
     }
 
     if ( !access (doomuwad,R_OK) )
     {
       gamemode = retail;
       D_AddFile (doomuwad);
-      return;
+      goto done;
     }
 
     if ( !access (doomwad,R_OK) )
     {
       gamemode = registered;
       D_AddFile (doomwad);
-      return;
+      goto done;
     }
 
     if ( !access (doom1wad,R_OK) )
     {
       gamemode = shareware;
       D_AddFile (doom1wad);
-      return;
+      goto done;
     }
 
     printf("Game mode indeterminate.\n");
     gamemode = indetermined;
+
+    done:
+	free(doom1wad);
+	free(doomwad);
+	free(doomuwad);
+	free(doom2wad);
+	free(doom2fwad);
+	free(plutoniawad);
+	free(tntwad);
+	if (gamemode != indetermined) return;
 
     // We don't abort. Let's see what the PWAD contains.
     //exit(1);

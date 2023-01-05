@@ -186,6 +186,8 @@ void S_Init
   // no sounds are playing, and they are not mus_paused
   mus_paused = 0;
 
+  mus_playing = 0;
+
   // Note that sounds have not been cached (yet).
   for (i=1 ; i<NUMSFX ; i++)
     S_sfx[i].lumpnum = S_sfx[i].usefulness = -1;
